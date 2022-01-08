@@ -82,7 +82,6 @@ return playurl;
     $b = $ma[2];
     
     $d = strlen($b);
-    $e = $d;
     $f = [];
     $g = [];
     for($l = 1;$l<=$d;$l++)
