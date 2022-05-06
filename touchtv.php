@@ -8,7 +8,8 @@
     $ts = time().'123';
     $headers = [
         "X-ITOUCHTV-Ca-Key:04039368653554864194910691389924",
-        "X-ITOUCHTV-Ca-Timestamp:$ts"
+        "X-ITOUCHTV-Ca-Timestamp:$ts",
+        "X-ITOUCHTV-DEVICE-ID:IMEI_", // 偷鸡，内网测试稳定。
     ];
     $bstrURL = "https://tcdn-api.itouchtv.cn/getParam";
     $sign =base64_encode(hash_hmac("SHA256","GET\n$bstrURL\n$ts\n","qmiHeB9bKgowHqxRv0prc2cPN2EwXL1HOYu3DPiYCcaYxyxdFIyT5mAfBmr0UKPO",true));
