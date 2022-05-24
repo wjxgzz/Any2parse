@@ -22,7 +22,7 @@
     // gdtv.php?id=43
 
     $id = $_GET['id']; // 43 = 广东卫视
-    $cache = new Cache(3600,"cache/");
+    $cache = new Cache(60,"cache/");  // wss有断开校验 这东西，迟早要凉，送它一程
     $playURL = $cache->get("gdtv_".$id."_cache");
     if(!$playURL)
     {
@@ -103,7 +103,7 @@
                 $wsnode = $json->wsnode;
 
             }
-            fclose($sock);
+            
         }
         
         // wss 取串结束.
@@ -149,6 +149,7 @@
         $json = json_decode($data);
         $playURL = json_decode($json->playUrl)->hd;
         $cache->put("gdtv_".$id."_cache",$playURL);
+        fclose($sock); // 取串完成再关闭wss
     }
     // m3u8清单有referer校验。
     $ch = curl_init();
@@ -156,7 +157,7 @@
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
     curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); 
-    curl_setopt($ch, CURLOPT_HTTPHEADER,["Referer: https://www.gdtv.cn"]);
+    curl_setopt($ch, CURLOPT_HTTPHEADER,["Referer: https://www.gdtv.cn","origin: https://www.gdtv.cn"]);
     $data = curl_exec($ch);
     curl_close($ch);
 
@@ -175,7 +176,7 @@
         // 本处代码偷懒了，仅限该解析代码使用。
         $len = strlen($data);
         $head[0] = 129; 
-        $mask = array();
+        $mask = [];
         for ($j = 0; $j < 4; $j ++)
         {
             $mask[] = mt_rand(1, 128);
