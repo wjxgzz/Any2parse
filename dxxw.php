@@ -38,8 +38,6 @@
         "random"=> $rnd,
         "data"=> base64_encode($enc_data)
     ];
-    $ts = time();
-    $sign = hash('sha256', '6ca114a836ac7d73'.$ts);
 
     $headers[] = 'Content-Type: application/json';
 
