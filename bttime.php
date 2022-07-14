@@ -21,6 +21,6 @@
 
     $json = json_decode($data);
     $playURL = base64_decode(base64_decode(strrev($json->data->video_stream[0]->stream_url)));
-    header("localtion:". $playURL);
+    header("location:". $playURL);
 
 ?>
