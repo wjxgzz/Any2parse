@@ -2,7 +2,7 @@
     // 1905.com -- CCTV6直播
     $appid = "KylxQOSjpUpo7MZi"; // 盐
     $bstrURL = "https://profile.m1905.com/mvod/liveinfo.php";
-    $sStreamName = 'LIVE2OR14O20ADLYU';
+    $sStreamName = 'LIVE2OR14O20ADLYU';  /// CCTV6：LIVE2OR14O20ADLYU  /// 1905： LIVE8J4LTCXPI7QJ5
     $ts = time();
     //$playid = substr($ts,-4).'12312345678';
     $params = [
