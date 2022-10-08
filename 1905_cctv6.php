@@ -1,7 +1,7 @@
 <?php
     // 1905.com -- CCTV6直播
-    // Path@2022.08.29
-    $salt = "8b3e19113e16a64745c0bfb4ab2f0190f0cb5823"; // 盐
+    // Patch@2022.10.08
+    $salt = "b9ecd76ecc870b13fc3de3398ca49a6e65c0be69"; // 盐
     $bstrURL = "https://profile.m1905.com/mvod/liveinfo.php";
     $sStreamName = 'LIVE2OR14O20ADLYU';  /// CCTV6：LIVE2OR14O20ADLYU  /// 1905： LIVE8J4LTCXPI7QJ5
     $ts = time();
@@ -17,7 +17,7 @@
     ];
 
     $sign = sha1(http_build_query($params).'.'.$salt);
-    $params['appid'] = 'AKLTgt7vZ';
+    $params['appid'] = 'KylxQo7MZ';
     $headers = [
         'Authorization: '.$sign,
         'Content-Type: application/json',
