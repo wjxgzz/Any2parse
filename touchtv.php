@@ -7,6 +7,8 @@
     $pk = $_GET['pk'];
     $ts = time().'123';
     $headers = [
+        "X-ITOUCHTV-BRANCH:mj40", // 这两个头任选一个使用，都能获取地区台
+        //"X-ITOUCHTV-Q08: mj1167",
         "X-ITOUCHTV-Ca-Key:04039368653554864194910691389924",
         "X-ITOUCHTV-Ca-Timestamp:$ts",
         "X-ITOUCHTV-DEVICE-ID:IMEI_", // 偷鸡，内网测试稳定。
