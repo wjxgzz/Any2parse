@@ -2,8 +2,8 @@
     // 央视屏网页版
     // 没有VIP 送你们玩了。
     
-    $cnlid = $_GET['vid']; //2000266303
-    $pid = $_GET['pid']; //600002264
+    $cnlid = $_GET['vid']; //2022576803
+    $pid = $_GET['pid']; //600001859
 
 
     $guid = "00000000_00000000000"; // 自己抓或生成都可以 无限制
@@ -74,11 +74,21 @@
 
     $json = json_decode($data);
 
+    $chanll = json_decode($json->data->chanll);
+    $tmpcode = base64_decode($chanll->code);
+    preg_match('/var des_key = "(.*?)"/',$tmpcode,$deskey);
+    preg_match('/var des_iv = "(.*?)"/',$tmpcode,$desiv);
+    $plain = '{"mver": "1","subver": "1.2","host": "www.yangshipin.cn/#/tv/home","referer": "","canvas": "YSPANGLE(Google,Vulkan1.3.0(SwiftShaderDevice(Subzero)(0x0000C0DE)),SwiftShaderdriver)"}';
+
+    $revoi = openssl_encrypt($plain,"DES-EDE3-CBC",base64_decode($deskey[1]),1,base64_decode($desiv[1]));
+    $revoi = strtoupper(bin2hex($revoi));
+
     if($json->data->iretcode == 0)
     {
         // 这里建议缓存 vkey链接有效时间是 14400 秒
         $playurl = $json->data->playurl;
-        header("location:".$playurl);
+        $exinfo = $json->data->extended_param;
+        header("location:".$playurl."&revoi=".$revoi.$exinfo);
     }
     
     function rand_str()
