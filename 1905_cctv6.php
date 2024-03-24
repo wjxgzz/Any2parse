@@ -1,7 +1,9 @@
 <?php
     // 1905.com -- CCTV6直播
-    // Patch@2024.01.10
-    $salt = "756ffaf1f4d387d82a9200b2ca27c40c6406935d"; // 盐
+    // Patch@2024.03.24
+    // 有的用就静静拿去用，天天往山上搬是几个意思？
+
+    $salt = "733491c04838307328c3ca158213040d06c3924f"; // 盐
     $bstrURL = "https://profile.m1905.com/mvod/liveinfo.php";
     $sStreamName = 'LIVEI56PNI726KA7A';  /// CCTV6：LIVEI56PNI726KA7A  /// 1905： LIVENCOI8M4RGOOJ9  LIVE8J4LTCXPI7QJ5
     $ts = time();
@@ -17,7 +19,7 @@
     ];
 
     $sign = sha1(http_build_query($params).'.'.$salt);
-    $params['appid'] = 'xQOSjpUpo';
+    $params['appid'] = 'Lbv73h6w';
     $headers = [
         'Authorization: '.$sign,
         'Content-Type: application/json',
