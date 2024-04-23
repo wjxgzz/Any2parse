@@ -1,6 +1,8 @@
 <?php
     // 央视屏网页版
     // 没有VIP 送你们玩了。
+    // 真不建议频繁取串输出切片清单的玩法，容易搞死
+    //!! 正确的缓存方式是缓存最后的取串地址，在有效时间内通过请求缓存的地址输出切片清单 !!//
     
     $cnlid = $_GET['vid']; //2022576803
     $pid = $_GET['pid']; //600001859
@@ -52,15 +54,36 @@
     $sign = md5(http_build_query($params).$salt);
     $params["signature"] = $sign;
     
-    $bstrURL = "https://player-api.yangshipin.cn/v1/player/get_live_info";
     $headers = [
-        "Content-Type: application/json",
+        
         "Referer: https://www.yangshipin.cn/",
         "User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36",
-        "Cookie: guid={$guid}; versionName=99.99.99; versionCode=999999; vplatform=109; platformVersion=Chrome; deviceModel=114; uinfo_logintype=mobile; seqId=1111; request-id=999999".rand_str().$ts."123",
+        "Cookie: guid={$guid}; versionName=99.99.99; versionCode=999999; vplatform=109; platformVersion=Chrome; deviceModel=122; uinfo_logintype=mobile; seqId=20; request-id=999999".rand_str().$ts."123",
         "Yspappid: 519748109",
         
     ];
+
+    $authParm = "appid=ysp_pc&guid={$guid}&pid=0&rand_str=".rand_str();
+    $authParm = $authParm."&signature=".md5($authParm."Q0uVOpuUpXTOUwRn");
+    $bstrURL = "https://player-api.yangshipin.cn/v1/player/auth";
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $bstrURL);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE); 
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE); 
+    curl_setopt($ch, CURLOPT_HTTPHEADER,$headers);
+    curl_setopt($ch, CURLOPT_POST,true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS,$authParm);
+    $data = curl_exec($ch);
+    curl_close($ch);
+    $json = json_decode($data);
+
+    $ysptoken = $json->data->token;
+    $headers[] = "Content-Type: application/json";
+    $headers[] = "Yspplayertoken: {$ysptoken}";
+
+
+    $bstrURL = "https://player-api.yangshipin.cn/v1/player/get_live_info";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $bstrURL);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
@@ -85,7 +108,7 @@
 
     if($json->data->iretcode == 0)
     {
-        // 这里建议缓存 vkey链接有效时间是 14400 秒
+        // 这里建议缓存 
         $playurl = $json->data->playurl;
         $exinfo = $json->data->extended_param;
         header("location:".$playurl."&revoi=".$revoi.$exinfo);
