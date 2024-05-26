@@ -1,11 +1,11 @@
 <?php
     // 1905.com -- CCTV6直播
-    // Patch@2024.03.24
+    // Patch@2024.05.26
     // 有的用就静静拿去用，天天往山上搬是几个意思？
 
-    $salt = "733491c04838307328c3ca158213040d06c3924f"; // 盐
+    $salt = "2bcc2c6ab75dac016d20181bfcd1ee0697c78018"; // 盐
     $bstrURL = "https://profile.m1905.com/mvod/liveinfo.php";
-    $sStreamName = 'LIVEI56PNI726KA7A';  /// CCTV6：LIVEI56PNI726KA7A  /// 1905： LIVENCOI8M4RGOOJ9  LIVE8J4LTCXPI7QJ5
+    $sStreamName = 'LIVEI56PNI726KA7A';  /// CCTV6：LIVENLPG8RMKR5TW6  /// 1905： LIVENCOI8M4RGOOJ9  LIVE8J4LTCXPI7QJ5
     $ts = time();
     //$playid = substr($ts,-4).'12312345678';
     $params = [
@@ -19,7 +19,7 @@
     ];
 
     $sign = sha1(http_build_query($params).'.'.$salt);
-    $params['appid'] = 'Lbv73h6w';
+    $params['appid'] = 'GEalPdWA';
     $headers = [
         'Authorization: '.$sign,
         'Content-Type: application/json',
