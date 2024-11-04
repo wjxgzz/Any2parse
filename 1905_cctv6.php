@@ -1,6 +1,6 @@
 <?php
     // 1905.com -- CCTV6直播
-    // Patch@2024.05.26
+    // Patch@2024.11.04
     // 有的用就静静拿去用，天天往山上搬是几个意思？
 
     $salt = "2bcc2c6ab75dac016d20181bfcd1ee0697c78018"; // 盐
@@ -23,6 +23,7 @@
     $headers = [
         'Authorization: '.$sign,
         'Content-Type: application/json',
+        'Origin: https://www.1905.com'
     ];
 
     $ch = curl_init();
@@ -36,8 +37,9 @@
     $data = curl_exec($ch);
     curl_close($ch);
     $json = json_decode($data);
-    // 拼凑太麻烦了,你们自己写,这里使用固定值
-    $playURL = 'https://hlslive.1905.com/live/'.$sStreamName.'/index.m3u8'.$json->data->sign->hd->sign;
+    
+    // StreamName 竟然不对应？.不知道在搞什么
+    $playURL = 'https://hlslive.1905.com'.$json->data->path->hd->path.$json->data->sign->hd->sign;
     header('location:'.$playURL);
 
     function createNewGUID()
