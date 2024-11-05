@@ -1,9 +1,11 @@
 <?php
     // 1905.com -- CCTV6直播
-    // Patch@2024.11.04
-    // 有的用就静静拿去用，天天往山上搬是几个意思？
+    // Patch@2024.11.05
+    // 旧接口目前暂未删除 更新盐值.appId
+    // 终结不再更新： m3u8/ts 已需要referer.转发流问题不再细说
+    // 
 
-    $salt = "2bcc2c6ab75dac016d20181bfcd1ee0697c78018"; // 盐
+    $salt = "689d471d9240010534b531f8409c9ac31e0e6521"; // 盐
     $bstrURL = "https://profile.m1905.com/mvod/liveinfo.php";
     $sStreamName = 'LIVEI56PNI726KA7A';  /// CCTV6：LIVENLPG8RMKR5TW6  /// 1905： LIVENCOI8M4RGOOJ9  LIVE8J4LTCXPI7QJ5
     $ts = time();
@@ -19,7 +21,7 @@
     ];
 
     $sign = sha1(http_build_query($params).'.'.$salt);
-    $params['appid'] = 'GEalPdWA';
+    $params['appid'] = 'W0hUwz8D';
     $headers = [
         'Authorization: '.$sign,
         'Content-Type: application/json',
@@ -38,8 +40,8 @@
     curl_close($ch);
     $json = json_decode($data);
     
-    // StreamName 竟然不对应？.不知道在搞什么
-    $playURL = 'https://hlslive.1905.com'.$json->data->path->hd->path.$json->data->sign->hd->sign;
+    // 已需要referer //
+    $playURL = 'https://hlslive.1905.com'.$json->data->path->hd->uri.$json->data->sign->hd->hashuri;
     header('location:'.$playURL);
 
     function createNewGUID()
