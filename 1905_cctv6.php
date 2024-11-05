@@ -1,9 +1,9 @@
 <?php
     // 1905.com -- CCTV6直播
-    // Patch@2024.11.05
+    // Patch@2024.11.06
     // 旧接口目前暂未删除 更新盐值.appId
-    // 终结不再更新： m3u8/ts 已需要referer.转发流问题不再细说
-    // 
+    // 终结不再更新： 旧域名 m3u8/ts 已需要referer.转发流问题不再细说 // 山上demo挺多 自己写~~
+    // 暂时有不需要referer的域名
 
     $salt = "689d471d9240010534b531f8409c9ac31e0e6521"; // 盐
     $bstrURL = "https://profile.m1905.com/mvod/liveinfo.php";
@@ -40,8 +40,8 @@
     curl_close($ch);
     $json = json_decode($data);
     
-    // 已需要referer //
-    $playURL = 'https://hlslive.1905.com'.$json->data->path->hd->uri.$json->data->sign->hd->hashuri;
+    // 替换暂时不需要referer的域名 //
+    $playURL = 'https://hlslive2.ks-cdn.m1905.com'.$json->data->path->hd->uri.$json->data->sign->hd->hashuri;
     header('location:'.$playURL);
 
     function createNewGUID()
